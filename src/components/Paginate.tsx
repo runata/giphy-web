@@ -31,6 +31,8 @@ const Paginate: React.FC<PaginateProps> = ({ itemsPerPage, offset, setOffset, to
         pageCount={pageCount}
         previousLabel="< previous"
         className='w-full flex flex-row justify-between'
+        activeLinkClassName='bg-gray-300 rounded-full px-2 py-1 text-gray-800'
+        renderOnZeroPageCount={() => null}
     />
   );
 }
