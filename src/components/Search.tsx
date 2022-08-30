@@ -1,25 +1,26 @@
-import React, { useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import { debounce } from 'lodash'
 
 type SearchProps = {
+    setSearchQuery: (q: string) => void
 }
 
-const Search: React.FC<SearchProps> = () => {    
-    const changeHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const q = event.target.value
-        console.log(q)
-    }
+const Search: React.FC<SearchProps> = ({ setSearchQuery }) => {
+    const changeHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value.length > 0) {
+            setSearchQuery(event.target.value)
+        }
+    }, [setSearchQuery])
 
-    const debouncedChangeHandler = useMemo(() => debounce(changeHandler , 500), [])
+    const debouncedChangeHandler = useMemo(() => debounce(changeHandler , 500), [changeHandler])
 
     return (
-        <div>
-            <input 
-                onChange={debouncedChangeHandler} 
-                type="text" 
-                placeholder="Type to search for images..."
-            />
-        </div>
+        <input
+            className='w-full h-12 p-4 border-2 border-gray-300 rounded-lg'
+            onChange={debouncedChangeHandler} 
+            type="text" 
+            placeholder="Start typing to search for GIFs..."
+        />
     )
 }
 
